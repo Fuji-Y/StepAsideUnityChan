@@ -3,8 +3,8 @@ using System.Collections;
 
 public class ItemGenerator : MonoBehaviour
 {
-        /*UnityChanを入れる
-         public GameObject unitychan; */
+    //UnityChanを入れる
+    public GameObject unitychan;
     //carPrefabを入れる
     public GameObject carPrefab;
     //coinPrefabを入れる
@@ -15,60 +15,65 @@ public class ItemGenerator : MonoBehaviour
     private int startPos = -160;
     //ゴール地点
     private int goalPos = 120;
+    //アイテム出す地点
+    private int generatePos;
     //アイテムを出すx方向の範囲
     private float posRange = 3.4f;
 
     // Use this for initialization
     void Start()
     {
-        //一定の距離ごとにアイテムを生成
-        for (int i = startPos; i < goalPos; i += 15)
-        {
-            //どのアイテムを出すのかをランダムに設定
-            int num = Random.Range(1, 11);
-            if (num <= 2)
-            {
-                //コーンをx軸方向に一直線に生成
-                for (float j = -1; j <= 1; j += 0.4f)
-                {
-                    GameObject cone = Instantiate(conePrefab) as GameObject;
-                    cone.transform.position = new Vector3(4 * j, cone.transform.position.y, i);
-                }
-            }
-            else
-            {
+        /*this.unitychan = GameObject.Find("unitychan");
+        generatePos = startPos;*/
+       
+         //一定の距離ごとにアイテムを生成
+         for (int i = startPos; i < goalPos; i += 15)
+         {
+             //どのアイテムを出すのかをランダムに設定
+             int num = Random.Range(1, 11);
+             if (num <= 2)
+             {
+                 //コーンをx軸方向に一直線に生成
+                 for (float j = -1; j <= 1; j += 0.4f)
+                 {
+                     GameObject cone = Instantiate(conePrefab) as GameObject;
+                     cone.transform.position = new Vector3(4 * j, cone.transform.position.y, i);
+                 }
+             }
+             else
+             {
 
-                //レーンごとにアイテムを生成
-                for (int j = -1; j <= 1; j++)
-                {
-                    //アイテムの種類を決める
-                    int item = Random.Range(1, 11);
-                    //アイテムを置くZ座標のオフセットをランダムに設定
-                    int offsetZ = Random.Range(-5, 6);
-                    //60%コイン配置:30%車配置:10%何もなし
-                    if (1 <= item && item <= 6)
-                    {
-                        //コインを生成
-                        GameObject coin = Instantiate(coinPrefab) as GameObject;
-                        coin.transform.position = new Vector3(posRange * j, coin.transform.position.y, i + offsetZ);
-                    }
-                    else if (7 <= item && item <= 9)
-                    {
-                        //車を生成
-                        GameObject car = Instantiate(carPrefab) as GameObject;
-                        car.transform.position = new Vector3(posRange * j, car.transform.position.y, i + offsetZ);
-                    }
-                }
-            }
-        }
+                 //レーンごとにアイテムを生成
+                 for (int j = -1; j <= 1; j++)
+                 {
+                     //アイテムの種類を決める
+                     int item = Random.Range(1, 11);
+                     //アイテムを置くZ座標のオフセットをランダムに設定
+                     int offsetZ = Random.Range(-5, 6);
+                     //60%コイン配置:30%車配置:10%何もなし
+                     if (1 <= item && item <= 6)
+                     {
+                         //コインを生成
+                         GameObject coin = Instantiate(coinPrefab) as GameObject;
+                         coin.transform.position = new Vector3(posRange * j, coin.transform.position.y, i + offsetZ);
+                     }
+                     else if (7 <= item && item <= 9)
+                     {
+                         //車を生成
+                         GameObject car = Instantiate(carPrefab) as GameObject;
+                         car.transform.position = new Vector3(posRange * j, car.transform.position.y, i + offsetZ);
+                     }
+                 }
+             }
+         }
     }
 
     // Update is called once per frame
     void Update()
     {
         /*
-        //UnityChanの位置情報を取得し、UnityChanが進むごとに判定が行われるようにしたい
-        if (unitychan.transform.position.z < goalPos)
+        //一定の距離ごとにアイテムを生成
+       if (generatePos < this.unitychan.transform.position.z + posRange && generatePos < goalPos)
         {
             //どのアイテムを出すのかをランダムに設定
             int num = Random.Range(1, 11);
@@ -78,7 +83,7 @@ public class ItemGenerator : MonoBehaviour
                 for (float j = -1; j <= 1; j += 0.4f)
                 {
                     GameObject cone = Instantiate(conePrefab) as GameObject;
-                    cone.transform.position = new Vector3(4 * j, cone.transform.position.y, unitychan.transform.position.z + 40);
+                    cone.transform.position = new Vector3(4 * j, cone.transform.position.y, generatePos);
                 }
             }
             else
@@ -96,16 +101,18 @@ public class ItemGenerator : MonoBehaviour
                     {
                         //コインを生成
                         GameObject coin = Instantiate(coinPrefab) as GameObject;
-                        coin.transform.position = new Vector3(posRange * j, coin.transform.position.y, unitychan.transform.position.z + offsetZ);
+                        coin.transform.position = new Vector3(posRange * j, coin.transform.position.y, generatePos + offsetZ);
                     }
                     else if (7 <= item && item <= 9)
                     {
                         //車を生成
                         GameObject car = Instantiate(carPrefab) as GameObject;
-                        car.transform.position = new Vector3(posRange * j, car.transform.position.y, unitychan.transform.position.z + offsetZ);
+                        car.transform.position = new Vector3(posRange * j, car.transform.position.y, generatePos + offsetZ);
                     }
                 }
             }
-        }*/
+        }
+        this.generatePos += 15; 
+        */
     }
 }

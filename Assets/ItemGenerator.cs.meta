@@ -3,7 +3,11 @@ guid: f5f02bb240d58ba4eb6cb45caf02bc23
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - unitychan: {instanceID: 0}
+  - carPrefab: {instanceID: 0}
+  - coinPrefab: {instanceID: 0}
+  - conePrefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

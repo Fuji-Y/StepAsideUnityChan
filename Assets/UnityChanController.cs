@@ -94,50 +94,44 @@ public class UnityChanController : MonoBehaviour
             //Unityちゃんに上方向の力を加える
             this.myRigidbody.AddForce(this.transform.up * this.upForce);
         }
+    }
 
         //トリガーモードで他のオブジェクトと接触した場合の処理
-        void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
+    {
+        //障害物に衝突した場合
+        if (other.gameObject.tag == "CarTag" || other.gameObject.tag == "TrafficConeTag")
         {
-            /*課題
-            if (other.gameObject.z - this.transform.position.z < 0)
-            {
-                Destroy(other.gameObject);
-            }
-            */
+            this.isEnd = true;
+            //stateTextにGAME OVERを表示
+            this.stateText.GetComponent<Text>().text = "GAME OVER";
+        }
 
-            //障害物に衝突した場合
-            if (other.gameObject.tag == "CarTag" || other.gameObject.tag == "TrafficConeTag")
-            {
-                this.isEnd = true;
-                //stateTextにGAME OVERを表示
-                this.stateText.GetComponent<Text>().text = "GAME OVER";
-            }
+        //ゴール地点に到達した場合
+        if (other.gameObject.tag == "GoalTag")
+        {
+            this.isEnd = true;
+            //stateTextにGAME CLEARを表示
+            this.stateText.GetComponent<Text>().text = "CLEAR!!";
+        }
 
-            //ゴール地点に到達した場合
-            if (other.gameObject.tag == "GoalTag")
-            {
-                this.isEnd = true;
-                //stateTextにGAME CLEARを表示
-                this.stateText.GetComponent<Text>().text = "CLEAR!!";
-            }
+        //コインに衝突した場合
+        if (other.gameObject.tag == "CoinTag")
+        {
+            // スコアを加算(追加)
+            this.score += 10;
 
-            //コインに衝突した場合
-            if (other.gameObject.tag == "CoinTag")
-            {
-                // スコアを加算(追加)
-                this.score += 10;
+            //ScoreText獲得した点数を表示(追加)
+            this.scoreText.GetComponent<Text>().text = "Score " + this.score + "pt";
 
-                //ScoreText獲得した点数を表示(追加)
-                this.scoreText.GetComponent<Text>().text = "Score " + this.score + "pt";
+            //パーティクルを再生
+            GetComponent<ParticleSystem>().Play();
 
-                //パーティクルを再生
-                GetComponent<ParticleSystem>().Play();
-
-                //接触したコインのオブジェクトを破棄
-                Destroy(other.gameObject);
-            }
+            //接触したコインのオブジェクトを破棄
+            Destroy(other.gameObject);
         }
     }
+    
 
     //ジャンプボタンを押した場合の処理
     public void GetMyJumpButtonDown()
